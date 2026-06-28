@@ -1,0 +1,71 @@
+extends MeshInstance3D
+
+var plane := PlaneMesh.new()
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
+	plane.size = Vector2(1000.0, 1000.0)
+	
+	mesh = plane
+	
+	mesh.subdivide_depth = 200
+	mesh.subdivide_width = 200
+	
+	var arrays = mesh.get_mesh_arrays()
+	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+	
+		
+	var colors := PackedColorArray()
+	colors.resize(vertices.size())
+	
+	var large = FastNoiseLite.new()
+	large.noise_type = FastNoiseLite.TYPE_PERLIN
+	large.frequency = 0.02
+
+	var detail = FastNoiseLite.new()
+	detail.noise_type = FastNoiseLite.TYPE_CELLULAR
+	detail.fractal_gain = 5.0
+	detail.frequency = 0.001
+
+	var carve = FastNoiseLite.new()
+	carve.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	carve.fractal_octaves = 4
+	carve.frequency = 0.03
+
+	for i in vertices.size():
+		var v = vertices[i]
+		var height = large.get_noise_2d(v.x, v.z) * 2
+		height += detail.get_noise_2d(v.x, v.z) * 5
+		height -= carve.get_noise_2d(v.x, v.z)
+		
+		v.y = height
+		vertices[i] = v
+		
+		# Random-ish green variation based on another noise sample
+		var n = large.get_noise_2d(v.x + 500, v.z + 500) * 50
+
+		var r = clamp(0.22 + n * 0.04, 0.18, 0.28)
+		var g = clamp(0.38 + n * 0.06, 0.30, 0.46)
+		var b = clamp(0.20 + n * 0.03, 0.17, 0.25)
+
+		colors[i] = Color(r, g, b)
+	
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_COLOR] = colors
+	
+	var st := SurfaceTool.new()
+	st.create_from_arrays(arrays)
+	st.generate_normals()
+	
+	mesh = st.commit()
+	
+	var material = StandardMaterial3D.new()
+	material.vertex_color_use_as_albedo = true
+	mesh.surface_set_material(0, material)
+	
+	pass
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass

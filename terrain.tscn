@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://gwwoiavxlks3"]
+
+[ext_resource type="Script" uid="uid://dehd4pn7ewxn" path="res://mesh_instance_3d.gd" id="1_206su"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_206su"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_206su"]
+
+[sub_resource type="Sky" id="Sky_206su"]
+sky_material = SubResource("PhysicalSkyMaterial_206su")
+
+[sub_resource type="Environment" id="Environment_206su"]
+background_mode = 2
+sky = SubResource("Sky_206su")
+ambient_light_source = 3
+
+[node name="Terrain" type="Node3D" unique_id=1860603724]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1611254168]
+mesh = SubResource("PlaneMesh_206su")
+script = ExtResource("1_206su")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=646683602]
+transform = Transform3D(-0.052736886, 0.42731464, -0.9025636, 0, 0.9038213, 0.4279101, 0.99860847, 0.022566646, -0.04766472, 0, 0.9918697, 0)
+light_color = Color(0.6771446, 0.65210325, 0.62319356, 1)
+light_energy = 3.0
+shadow_enabled = true
+shadow_blur = 2.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1842281822]
+environment = SubResource("Environment_206su")
