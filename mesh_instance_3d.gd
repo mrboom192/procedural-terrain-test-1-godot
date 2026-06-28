@@ -43,13 +43,12 @@ func _ready() -> void:
 		vertices[i] = v
 		
 		# Random-ish green variation based on another noise sample
-		var n = large.get_noise_2d(v.x + 500, v.z + 500) * 50
+		var green = Color(0.243 / 2, 0.325 / 2, 0.039 / 2, 1.0)
+		var brown = Color(0.416 / 2, 0.337 / 2, 0.161 / 2, 1.0)
+		var brown2 = Color(0.388 / 2, 0.286 / 2, 0.082 / 2, 1.0)
+		var green2 = Color(0.443 / 2, 0.426 / 2, 0.164 / 2, 1.0)
 
-		var r = clamp(0.22 + n * 0.04, 0.18, 0.28)
-		var g = clamp(0.38 + n * 0.06, 0.30, 0.46)
-		var b = clamp(0.20 + n * 0.03, 0.17, 0.25)
-
-		colors[i] = Color(r, g, b)
+		colors[i] = [green, brown, green2, brown2].pick_random()
 	
 	arrays[Mesh.ARRAY_VERTEX] = vertices
 	arrays[Mesh.ARRAY_COLOR] = colors
