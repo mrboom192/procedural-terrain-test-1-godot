@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://gwwoiavxlks3"]
 
 [ext_resource type="Script" uid="uid://dehd4pn7ewxn" path="res://mesh_instance_3d.gd" id="1_206su"]
+[ext_resource type="Script" uid="uid://ec3f3uut1ij8" path="res://geometry.gd" id="2_0u6kl"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_206su"]
+[sub_resource type="PlaceholderMesh" id="PlaceholderMesh_206su"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_206su"]
 
@@ -14,10 +15,12 @@ background_mode = 2
 sky = SubResource("Sky_206su")
 ambient_light_source = 3
 
+[sub_resource type="ArrayMesh" id="ArrayMesh_g4v7s"]
+
 [node name="Terrain" type="Node3D" unique_id=1860603724]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1611254168]
-mesh = SubResource("PlaneMesh_206su")
+mesh = SubResource("PlaceholderMesh_206su")
 script = ExtResource("1_206su")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=646683602]
@@ -29,3 +32,8 @@ shadow_blur = 2.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1842281822]
 environment = SubResource("Environment_206su")
+
+[node name="Geometry" type="MeshInstance3D" parent="." unique_id=1516153268]
+visible = false
+mesh = SubResource("ArrayMesh_g4v7s")
+script = ExtResource("2_0u6kl")

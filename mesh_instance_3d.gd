@@ -1,11 +1,13 @@
 extends MeshInstance3D
 
+var TILE_SIZE = 1000.0
+
 var plane := PlaneMesh.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
-	plane.size = Vector2(1000.0, 1000.0)
+	plane.size = Vector2(TILE_SIZE, TILE_SIZE)
 	
 	mesh = plane
 	
