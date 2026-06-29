@@ -1,18 +1,17 @@
 extends MeshInstance3D
 
-var TILE_SIZE = 1000.0
+var tile_size: float
+var subdivide_levels: int
 
 var plane := PlaneMesh.new()
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#get_viewport().debug_draw = Viewport.DEBUG_DRAW_WIREFRAME
-	plane.size = Vector2(TILE_SIZE, TILE_SIZE)
+	plane.size = Vector2(tile_size, tile_size)
 	
 	mesh = plane
 	
-	mesh.subdivide_depth = 200
-	mesh.subdivide_width = 200
+	mesh.subdivide_depth = subdivide_levels
+	mesh.subdivide_width = subdivide_levels
 	
 	var arrays = mesh.get_mesh_arrays()
 	var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
@@ -36,9 +35,13 @@ func _ready() -> void:
 
 	for i in vertices.size():
 		var v = vertices[i]
-		var height = large.get_noise_2d(v.x, v.z) * 2
-		height += detail.get_noise_2d(v.x, v.z) * 5
-		height -= carve.get_noise_2d(v.x, v.z)
+		
+		var world_x = v.x + position.x
+		var world_z = v.z + position.z
+		
+		var height = large.get_noise_2d(world_x, world_z) * 2
+		height += detail.get_noise_2d(world_x, world_z) * 5
+		height -= carve.get_noise_2d(world_x, world_z)
 		
 		v.y = height
 		vertices[i] = v
@@ -63,7 +66,3 @@ func _ready() -> void:
 	var material = StandardMaterial3D.new()
 	material.vertex_color_use_as_albedo = true
 	mesh.surface_set_material(0, material)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ipkxw1k0hjp6"]
+
+[ext_resource type="Script" uid="uid://btcsitjlddok8" path="res://ground.gd" id="1_yh8r4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lv0v5"]
+
+[node name="Ground" type="MeshInstance3D" unique_id=1208565046]
+mesh = SubResource("PlaneMesh_lv0v5")
+script = ExtResource("1_yh8r4")

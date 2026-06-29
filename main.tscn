@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dru1hsfeiy5s"]
+
+[ext_resource type="Script" uid="uid://c35tomc1ddheu" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://ipkxw1k0hjp6" path="res://ground.tscn" id="2_0xm2m"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_ig7tw"]
+
+[sub_resource type="Sky" id="Sky_206su"]
+sky_material = SubResource("PhysicalSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+background_mode = 2
+sky = SubResource("Sky_206su")
+ambient_light_source = 3
+
+[node name="Main" type="Node" unique_id=407851589]
+script = ExtResource("1_0xm2m")
+ground_tile = ExtResource("2_0xm2m")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1099548279]
+transform = Transform3D(-0.052736886, 0.42731464, -0.9025636, 0, 0.9038213, 0.4279101, 0.99860847, 0.022566646, -0.04766472, 0, 0.9918697, 0)
+light_color = Color(0.6771446, 0.65210325, 0.62319356, 1)
+light_energy = 3.0
+shadow_enabled = true
+shadow_blur = 2.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=830497721]
+environment = SubResource("Environment_0xm2m")
