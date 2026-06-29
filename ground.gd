@@ -3,6 +3,10 @@ extends MeshInstance3D
 var tile_size: float
 var subdivide_levels: int
 
+var large: FastNoiseLite
+var detail: FastNoiseLite
+var carve: FastNoiseLite
+
 var plane := PlaneMesh.new()
 
 func _ready() -> void:
@@ -18,29 +22,15 @@ func _ready() -> void:
 	
 	var colors := PackedColorArray()
 	colors.resize(vertices.size())
-	
-	var large = FastNoiseLite.new()
-	large.noise_type = FastNoiseLite.TYPE_PERLIN
-	large.frequency = 0.02
 
-	var detail = FastNoiseLite.new()
-	detail.noise_type = FastNoiseLite.TYPE_CELLULAR
-	detail.fractal_gain = 5.0
-	detail.frequency = 0.001
-
-	var carve = FastNoiseLite.new()
-	carve.noise_type = FastNoiseLite.TYPE_SIMPLEX
-	carve.fractal_octaves = 4
-	carve.frequency = 0.03
-
-	for i in vertices.size():
+	for i in range(vertices.size()):
 		var v = vertices[i]
 		
 		var world_x = v.x + position.x
 		var world_z = v.z + position.z
 		
-		var height = large.get_noise_2d(world_x, world_z) * 2
-		height += detail.get_noise_2d(world_x, world_z) * 5
+		var height = large.get_noise_2d(world_x, world_z) * 250
+		height += detail.get_noise_2d(world_x, world_z)
 		height -= carve.get_noise_2d(world_x, world_z)
 		
 		v.y = height

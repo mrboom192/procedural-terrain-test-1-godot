@@ -12,6 +12,9 @@ sky_material = SubResource("PhysicalSkyMaterial_ig7tw")
 background_mode = 2
 sky = SubResource("Sky_206su")
 ambient_light_source = 3
+fog_enabled = true
+fog_density = 0.0005
+fog_sky_affect = 0.2
 
 [node name="Main" type="Node" unique_id=407851589]
 script = ExtResource("1_0xm2m")
